@@ -3,5 +3,3 @@ language: c
 compiler:
   - clang
   - gcc
-before_script: chmod +x configure
-after_script: ./bfparser xmas.bf
