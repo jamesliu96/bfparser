@@ -11,6 +11,7 @@ Use the code
 
 - `bfparser.h` (main head file)
 - `bfparser.c` (main cpp file)
+- `xmas.bf` (test input file)
 
 Build & Install
 ------
