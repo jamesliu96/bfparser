@@ -2,7 +2,9 @@ bfparser: bfparser.c bfparser.h
 	cc -o bfparser bfparser.c
 	chmod +x bfparser
 
-.PHONY: clean install uninstall
+.PHONY: test clean install uninstall
+test: bfparser
+	./bfparser xmas.bf
 clean: bfparser
 	rm -f bfparser
 install: bfparser
