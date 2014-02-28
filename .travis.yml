@@ -1,4 +1,4 @@
-install: make && make test
+install: make && make install
 language: c
 compiler:
   - clang
