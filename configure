@@ -1,0 +1,9 @@
+#! /bin/sh
+
+if test bfparser.h
+  then
+  if test bfparser.c
+    then
+    exit 0
+  fi
+fi

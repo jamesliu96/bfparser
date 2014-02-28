@@ -1,4 +1,5 @@
-BrainFuck Parser
+BrainFuck Parser [![Build Status](https://travis-ci.org/jamesliu96/bfparser.png)](https://travis-ci.org/jamesliu96/bfparser)
+
 ======
 
 Introduction
