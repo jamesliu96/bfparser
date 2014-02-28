@@ -1,0 +1,6 @@
+install: make && make test
+language: c
+compiler:
+  - clang
+  - gcc
+after_script: ./bfparser xmas.bf
