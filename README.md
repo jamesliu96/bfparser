@@ -20,14 +20,6 @@ Build & Install
 
 `make & make install`
 
-Reproduce
-------
-
-You can add the head file to your projects but remember:
-
-1. You have to add `#define TOKENS` and your token string before `#include "bfparser.h"`
-2. Define what each of the character stands for in the `setup()`
-
 License
 ------
 

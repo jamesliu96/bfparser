@@ -1,65 +1,90 @@
-#define CODE_SEGMENT_SIZE 30000
-#define STACK_SEGMENT_SIZE 1000
-#define DATA_SEGMENT_SIZE 30000
+#define LEN 50000
 
-typedef void (*Callback)(void);
+#include <stdio.h>
+#include <stdlib.h>
 
-struct {
-  char cs[CODE_SEGMENT_SIZE];   /* Code Segment */
-  long ip;                      /* Instruction Pointer */
-
-  char ss[STACK_SEGMENT_SIZE];  /* Stack Segment */
-  long sp;                      /* Stack Pointer */
-
-  char ds[DATA_SEGMENT_SIZE];   /* Data Segment */
-  long bp;                      /* Base Pointer */
-
-  Callback fn[128];
-} vm;
-
-void vm_forward() {
-  vm.bp = (vm.bp + 1) % DATA_SEGMENT_SIZE;
-}
-
-void vm_backward() {
-  vm.bp = (vm.bp + DATA_SEGMENT_SIZE - 1) % DATA_SEGMENT_SIZE;
-}
-
-void vm_increment() {
-  vm.ds[vm.bp]++;
-}
-
-void vm_decrement() {
-  vm.ds[vm.bp]--;
-}
-
-void vm_input() {
-  vm.ds[vm.bp] = getchar();
-}
-
-void vm_output() {
-  putchar(vm.ds[vm.bp]);
-}
-
-void vm_while_in() {
-  if (vm.ds[vm.bp]) {
-    vm.ss[vm.sp] = vm.ip - 1;
-    vm.sp++;
-  } else {
-    int c = 1;
-    for (vm.ip++; vm.cs[vm.ip] && c; vm.ip++) {
-      if (vm.cs[vm.ip] == '[') {
-        c++;
-      } else if (vm.cs[vm.ip] == ']') {
-        c--;
-      }
+int bfparser(FILE *input)
+{
+    char source[LEN] = {0};
+    char runtime[LEN] = {0};
+    char *sptr, *wptr;
+    int pos = 0;
+    int wflag = 0;
+    int line = 1, col = 0, wline, wcol;
+    sptr = source;
+    while (wflag || EOF!=fscanf(input, "%c", sptr))
+    {
+        if (!wflag)
+            ++col;
+        else
+            ++wcol;
+        switch (*sptr)
+        {
+            case '>' :
+                ++pos;
+                break;
+            case '<' :
+                if (--pos <0)
+                {
+                    printf("%d : %d : ERROR: Illegal pointer value\n", line, col);
+                    return 1;
+                }
+                break;
+            case '+' :
+                ++runtime[pos];
+                if (runtime[pos] < 0 || runtime[pos] > 255)
+                {
+                    if (!wflag)
+                        printf("%d : %d : ERROR: Illegal value\n", line, col);
+                    else
+                        printf("%d : %d : ERROR: Illegal value\n", wline, wcol);
+                    return 1;
+                }
+                break;
+            case '-' :
+                --runtime[pos];
+                if (runtime[pos] < 0 || runtime[pos] > 255)
+                {
+                    if (!wflag)
+                        printf("%d : %d : ERROR: Illegal value\n", line, col);
+                    else
+                        printf("%d : %d : ERROR: Illegal value\n", wline, wcol);
+                    return 0;
+                }
+                break;
+            case '.' :
+                putchar(runtime[pos]);
+                break;
+            case ',' :
+                runtime[pos]=getchar();
+                break;
+            case '[' :
+                if (runtime[pos])
+                    wptr = sptr-1;
+                else
+                    wflag = 0;
+                wline = line;
+                wcol = col;
+                break;
+            case ']' :
+                sptr = wptr;
+                wflag = 1;
+                line = wline;
+                col = wcol;
+                break;
+            case '\n' :
+                if (!wflag)
+                {
+                    ++line;
+                    col = 0;
+                }
+                else
+                {
+                    ++wline;
+                    wcol = 0;
+                }
+                break;
+        }
+        ++sptr;
     }
-  }
-}
-
-void vm_while_out() {
-  if (vm.ds[vm.bp]) {
-    vm.sp--;
-    vm.ip = vm.ss[vm.sp];
-  }
 }
