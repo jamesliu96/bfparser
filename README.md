@@ -18,7 +18,16 @@ Use the code
 Build & Install
 ------
 
-`make & make install`
+`make & sudo make install`
+
+_WARNING: YOU SHOULD USE `sudo` TO INSTALL UNLESS YOU ARE ROOT USER._
+
+Uninstall
+------
+
+`make clean & sudo make uninstall`
+
+_WARNING: YOU SHOULD USE `sudo` TO UNINSTALL UNLESS YOU ARE ROOT USER._
 
 License
 ------
