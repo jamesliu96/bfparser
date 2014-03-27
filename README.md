@@ -18,7 +18,9 @@ Use the code
 Build & Install
 ------
 
-`make & sudo make install`
+```
+$ make & sudo make install
+```
 
 _WARNING: YOU SHOULD USE `sudo` TO INSTALL UNLESS YOU ARE ROOT USER._
 
