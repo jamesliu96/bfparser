@@ -34,7 +34,7 @@ _WARNING: YOU SHOULD USE `sudo` TO UNINSTALL UNLESS YOU ARE ROOT USER._
 License
 ------
 
-The MIT License (MIT)
+[The MIT License](http://james.mit-license.org/) (MIT)
 
 Copyright (c) 2014 James Liu
 
